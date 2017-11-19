@@ -1,0 +1,55 @@
+/*
+	[翻转单词顺序]
+
+	翻转单词顺序。比如一个句子：“I am a student.” 翻转以后是 “student. a am I”。
+*/
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+class Solution{
+public:
+    string ReverseSentence(string str){
+        if(str.empty())
+            return "";
+
+        // reverse whole string 
+        reverse(str, 0, str.size()-1);
+
+        // reverse each word
+        int istart = 0;
+        int iend = 0;
+        while(iend < str.size()){
+            if(str[iend] == ' '){
+                // a new word
+                reverse(str, istart, iend-1);
+                istart = iend+1;
+                iend = istart;
+            }else{
+                iend++;
+            }
+        }
+
+        // the last word
+        reverse(str, istart, iend-1);
+
+        return str;
+    }
+
+    void reverse(string &str, int left, int right){
+        while(left<=right){
+            swap(str[left], str[right]);
+            left++;
+            right--;
+        }
+    }
+};
+
+int main()
+{
+    return 0;
+}
