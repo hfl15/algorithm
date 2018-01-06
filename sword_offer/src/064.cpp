@@ -1,7 +1,23 @@
 /*
+
 	[包含min函数的栈]
 
+    [题目]
 	定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。
+
+    [解析]
+    - 解法 1: 
+        两个栈，一个存储值(stackVal)，一个存储当前的最小值(stackMin)，一一对应。
+        空间复杂度，如果有 n 个 int 类型的数，则 O(2\*n\*sizeof(int))
+        - push 一个值 val 时，if(val < stackMin.top): stackMin.push(val) else : stackMin.push(stackMin.top())
+        - pop, stackVal.pop, stackMin.pop()
+    - 解法 2 （见下面的第一个代码段）：
+        值使用 vector 存储以便于获取下标，minIndexs 存储最小值对应的下标（与 1 不同的是，相同的最小值不需要重复入栈）。
+        最坏的空间复杂度还是：O(2\*n\*sizeof(int))。
+    - 解法 3 (见下面的第二个代码段)：
+        - stackVal 存储 x = value - minVal，即当前值和最小值的差值
+        - 注意类型：long，因为当 minVal 为 int 范围内最小的数时，只要 value>0， x 就会超过 int 可以表示的范围。
+        - 空间复杂度，由于堆栈使用的是 long 型的，sizeof(long) = 2*sizeof(int)，因此空间复杂度较第二种情况并没有减小。
 
 */
 
