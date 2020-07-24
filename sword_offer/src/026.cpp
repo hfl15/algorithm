@@ -34,7 +34,7 @@ public:
     }
 
     TreeNode* reConstructBinaryTreeRecursive(vector<int>& pre, int iPrevLeft, int iPrevRight,
-                                             vector<int>& vin, int iVinLeft, int iVinRight){
+                                             vector<int>& vin, int iVinLeft, int iVinRight){ // 数组为引用类型，节省了复制的时间，其实还可以加上 const 修饰，不让修改参数。
         if(iPrevLeft > iPrevRight)
             return NULL;
 
