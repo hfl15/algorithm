@@ -36,7 +36,7 @@ public:
     }
 
     vector<int> printListFromTailToHeadIterate(ListNode* head){
-        vector<int> ans;
+        vector<int> ans; // 20200724，最好放到后面，开一个固定大小的数组，否则 resize 会需要额外的时间。比如 vector<int> ans(sNotes.size());
         stack<int> sNotes;
         ListNode* p = head;
         while(p){
