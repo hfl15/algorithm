@@ -21,7 +21,7 @@ public:
         // special case
         if(base == 0 && exponent == 0)
             return 0;
-        if(base == 0 && exponent < 0 )
+        if(base == 0 && exponent < 0 ) // 严格来说，两个 double 类型的数是否相等，应当通过判断他们的差值是否为很小的数来判断。计算机存储浮点数是有误差的。 
             return numeric_limits<int>::max();
 
         double ans = PowerPositive(base, abs(exponent));
@@ -36,7 +36,7 @@ public:
         if(exponent == 1)
             return base;
 
-        double temp = PowerPositive(base, exponent/2);
+        double temp = PowerPositive(base, exponent/2); // exponent/2 可以通过移位操作来实现，更高效，等价于 exponent >> 1 
         if((exponent & 1) == 1){
             return temp*temp*base;
         }else{
