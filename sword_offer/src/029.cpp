@@ -13,6 +13,7 @@
     2. 注意特殊情况的处理：
        - 数组没有旋转，递增有序，直接返回第一个值。
        - 当前最左边的值等于最右边的值时无法进一步缩小空间，只能顺序查找。
+       - 循环结束条件：while(ileft + 1 < iright)
 */
 
 #include <iostream>
@@ -32,7 +33,7 @@ public:
         int ileft = 0; // point to the maximum in the left ascending part
         int iright = rotateArray.size()-1;  // point to the minimum in the right ascending part
 
-        while(ileft + 1 < iright){
+        while(ileft + 1 < iright){ 
             int mid = ileft + (iright - ileft + 1) / 2;
             if(rotateArray[ileft] == rotateArray[iright]){
                 // in this case, we can not shrink the searching space
