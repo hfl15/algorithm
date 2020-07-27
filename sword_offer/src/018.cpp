@@ -25,7 +25,7 @@ public:
         if(matrix.empty())
             return vector<int>();
 
-        vector<int> ans;
+        vector<int> ans; // 最好在一开始的时候开辟一段空间，一个个加可能会涉及到重新调整空间的操作，这时候会需要额外的开销。
         int si = 0, sj = 0;
         int ei = matrix.size()-1;
         int ej = matrix[0].size()-1;
