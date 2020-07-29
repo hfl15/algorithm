@@ -20,6 +20,7 @@
 */
 
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 #include <algorithm>
 
@@ -27,40 +28,120 @@ using namespace std;
 
 class Solution{
 public:
-    int MoreThanHalfNum_Solution(vector<int> numbers){
-        // these two case can't be distinguish by return value: 
-        // (1) the more than hal number is 0, 
-        // (2) the length of numbers is 0, but the return value also is 0.
-        // various different case can be taken to address this problem, which will be need to change the function interface.
-        int ans = 0;
-        int count = 0;
-
-        for(int n : numbers){
-            if(n == ans){
-                count++;
-            }else{
-                if(count == 0){
-                    ans = n;
-                    count = 1;
-                }else{
-                    count--;
-                }
-            }
-        }
-
-        // check whether there is a correct solution
-        count = 0;
-        for(int n : numbers){
-            if(n == ans)
-                count++;
-        }
-
-
-        return count > numbers.size()/2 ? ans : 0;
+    int MoreThanHalfNum_Solution(vector<int> numbers) {
+		//return MoreThanHalfNumWithMap(numbers);
+		//return MoreThanHalfNumWithPartition(numbers);
+		return MoreThanHalfNumWithTrick(numbers);
     }
+
+	int MoreThanHalfNumWithMap(vector<int>& numbers){
+		unordered_map<int, int> hash;
+		unordered_map<int, int>::iterator it;
+
+		for(int n : numbers){
+			it = hash.find(n);
+			if(it == hash.end()){
+				//hash.insert(pair<int, int>(n, 1));
+				hash[n] = 1;
+			}else{
+				hash[n]++;
+				//it->second++;
+			}
+		}
+
+		int half_len = numbers.size() / 2;
+		for(it = hash.begin(); it!=hash.end(); it++){
+			if(it->second > half_len)
+				return it->first;
+		}
+
+		return 0;
+	}
+
+	int MoreThanHalfNumWithPartition(vector<int>& numbers){
+		if(numbers.size() == 0)
+			return 0;
+
+		int middle = numbers.size() >> 1;
+		int left = 0, right = numbers.size()-1; 
+		int index = Partition(numbers, left, right);
+		while(index != middle){
+			if(index < middle){
+				left = index+1;
+				index = Partition(numbers, left, right);
+			}else{
+				right = index - 1;
+				index = Partition(numbers, left, right);
+			}
+		}
+
+		int ans = numbers[index];
+		int count = 0;
+		for(int i=0; i<numbers.size(); i++){
+			if(numbers[i] == ans)
+				count++;
+		}
+
+		return count > middle ? ans : 0;
+	}
+	
+	int Partition(vector<int>& numbers, int left, int right){
+		int ileft = left+1, iright = right;
+		while(ileft < iright){
+			while(ileft<iright && numbers[ileft] <= numbers[left])
+				ileft++;
+			while(ileft<iright && numbers[iright] > numbers[left])
+				iright--;
+			if(ileft < iright){
+				swap(numbers[ileft], numbers[iright]);
+				ileft++;
+				iright--;
+			}
+		}
+		swap(numbers[left], numbers[ileft-1]);
+		return ileft-1;
+	}
+
+	int MoreThanHalfNumWithTrick(vector<int>& number){
+		if(number.size() == 0)
+			return 0;
+
+		int ans = number[0];
+		int count = 1;
+		for(int i=1; i<number.size(); i++){
+			if(number[i] == ans)
+				count++;
+			else{
+				if(count > 0)
+					count--;
+				else{
+					ans = number[i];
+					count = 1;
+				}
+			}
+		}
+
+		count = 0;
+		for(int i=0; i<number.size(); i++){
+			if(number[i] == ans)
+				count++;
+		}
+		
+		return count > (number.size() >> 1) ? ans : 0;
+	}
 };
 
 int main()
-{
-    return 0;
+{ // 9 1 2 3 2 2 2 5 4 2
+	int n;
+	cin >> n;
+	vector<int> numbers(n);
+	for(int i=0; i<n; i++)
+		cin >> numbers[i];
+
+	Solution s = Solution();
+	int ans = s.MoreThanHalfNum_Solution(numbers);
+	cout << ans << endl;
+
+	return 0;
 }
