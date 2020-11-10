@@ -8,6 +8,9 @@
     方法0: 直接排序然后返回前k个，最好的时间复杂度为 O(nlog(n))
     方法1: 快排的变种，时间复杂度 O(n)，缺点：修改输入；原址，需要把所有数都 load 到内存中
     方法2: 利用最大堆作为辅助，时间复杂度 O(n*lg(k))，适用于处理数据量很大的情况。
+    	priority_queue 默认是最大堆的实现。
+    	// https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/solution/zui-xiao-de-kge-shu-by-leetcode-solution/
+	// priority_queue: http://www.cplusplus.com/reference/queue/priority_queue/
     方法3：使用红黑树，其查找可以控制在 lg(k)，c++ 中 multiset 的实现就是基于红黑树的。
 */
 
