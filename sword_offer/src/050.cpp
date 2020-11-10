@@ -14,19 +14,19 @@
 
 class Solution{
 public:
-    int Add(int num1, int num2){
-        // add num2 to num1
-        while(num2){
-            int numAnd = num1 & num2;
-            int numXor = num1 ^ num2;
+	int add(int a, int b){
+		while( b != 0){
+			unsigned int numAnd = a & b; // C++中负数不支持左移位，因为结果是不定的
+			int numXor = a ^ b;
 
-            num1 = numXor;
-            num2 = numAnd<<1; // carry
-        }
+			a = numXor;
+			b = numAnd<<1; // carry
+		}
 
-        return num1;
-    }
+		return a;
+	}
 };
+
 
 int main()
 {
